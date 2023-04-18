@@ -24,7 +24,6 @@ def auth(payload):
     return baseUrl, hed
 
 
-print("------")
 logging.debug("------")
 
 
@@ -37,17 +36,15 @@ def get_key_id(hed, payload):
 
     logging.debug(response_key)
     data_key = response_key.json()
-    keey_id = data_key["keys"][0]["id"]
+    keey_id = data_key["id"]
     logging.debug("keey_id- %s", keey_id)
     return keey_id
 
 
 #####################################################################
 def get_vpc_id(hed, payload):
-    res_vpcs = requests.get(urls.vpc_url, headers=hed)  #
-
+    res_vpcs = requests.get(urls.vpc_url, headers=hed)
     data_vpc = res_vpcs.json()
-    # checks to see wether vpc is present, if not sends a post request creating a vpc with the required pay-load
     try:
         vpc_id = data_vpc["vpcs"][0]["id"]
     except:
@@ -72,7 +69,6 @@ def get_vpc_id(hed, payload):
     return vpc_id
 
 
-# extracts the cidr values from the created vpc
 def get_vpc_cidr(hed, vpc_id):
     res_vpcs = requests.get(
         urls.vpc_cidr_url.format(ENDPOINT=ENDPOINT, vpc_id=vpc_id, DATE=DATE),
@@ -90,7 +86,6 @@ def get_subnet_id(hed, payload):
     data_subnet = res_subnet.json()
     print("------")
     logging.debug("------")
-    # checks to see wether subnet is present if not sends a post request creating a subnet with the required pay-load
     try:
         subnet_id = data_subnet["subnets"][0]["id"]
     except:
@@ -131,9 +126,7 @@ def get_vol_id(hed):
                            headers=hed)
 
     data_vol = res_vol.json()
-    # extracts the volume name
     logging.debug("-----")
-    # print("------")
     vol_name = data_vol["profiles"][0]["name"]
     logging.debug("vol_name- %s", vol_name)
     return vol_name
@@ -155,3 +148,6 @@ def get_ins_id(hed, payload):
     logging.debug("instance_id- %s", ins_id)
 
     return ins_id
+
+def instance_delete():
+    del_instance = requests.delete(urls.ins_url_del)

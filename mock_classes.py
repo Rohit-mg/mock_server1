@@ -3,7 +3,9 @@ from flask import Flask, jsonify, request
 from datetime import datetime
 
 
-# from app import new_id
+import uuid
+
+
 
 
 class KeyGenerator:
@@ -12,39 +14,28 @@ class KeyGenerator:
         self.public_key = public_key
         self.created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         self.type = type
-        self.key_id = "r13-bndb3geobsdf364436j534"
+        self.key_id = "a6b1a881-2ce8-41a3-80fc-36316a73f803"
 
-    # returns the required json value for keys
     def generate_json(self):
         data = {
-            "first": {
-                "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/keys?limit=50"
+
+            "created_at": self.created_at,
+            "crn": "crn:v1:staging:public:is:us-south:a/f3bad5305cff47af940f9ac4350cdb68::key:r134"
+                   "-d0111ee0-771e-4e7d-9d80-a6edb8b4507b",
+            "fingerprint": "SHA256:US3aORWGNeNyuJ4SaxFkELTGzgMBiAbtWzF7zAsMMlg",
+            "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/keys/r134-d0111ee0"
+                    "-771e-4e7d-9d80-a6edb8b4507b",
+            "id": self.key_id,
+            "length": 2048,
+            "name": self.name,
+            "public_key": self.public_key,
+            "resource_group": {
+                "href": "https://resource-controller.test.cloud.ibm.com/v2/resource_groups"
+                        "/7820413784bc4594aafd9bd33d45b9dd",
+                "id": "7820413784bc4594aafd9bd33d45b9dd",
+                "name": "Default"
             },
-            "keys": [
-
-                {
-                    "created_at": self.created_at,
-                    "crn": "crn:v1:staging:public:is:us-south:a/f3bad5305cff47af940f9ac4350cdb68::key:r134"
-                           "-d0111ee0-771e-4e7d-9d80-a6edb8b4507b",
-                    "fingerprint": "SHA256:US3aORWGNeNyuJ4SaxFkELTGzgMBiAbtWzF7zAsMMlg",
-                    "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/keys/r134-d0111ee0"
-                            "-771e-4e7d-9d80-a6edb8b4507b",
-                    "id": self.key_id,
-                    "length": 2048,
-                    "name": self.name,
-                    "public_key": self.public_key,
-                    "resource_group": {
-                        "href": "https://resource-controller.test.cloud.ibm.com/v2/resource_groups"
-                                "/7820413784bc4594aafd9bd33d45b9dd",
-                        "id": "7820413784bc4594aafd9bd33d45b9dd",
-                        "name": "Default"
-                    },
-                    "type": self.type
-                }
-
-            ],
-            "limit": 50,
-            "total_count": 1
+            "type": self.type
         }
 
         data1 = {"name": self.name}
@@ -55,15 +46,21 @@ class KeyGenerator:
 
 
 class post_instance:
-    def __init__(self, key_id, vpc_id, vol_name, img_id, subnet_id):
+    def __init__(self, key_id, vpc_id, vol_name, img_id, subnet_id, name,profile):
         self.key_id = key_id
         self.created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         self.vpc_id = vpc_id
         self.vol_name = vol_name
         self.img_id = img_id
         self.subnet_id = subnet_id
+        self.name = name
+        self.profile = profile
 
-    # returns the required json value for instance
+    def random_id_generator(self):
+        random_id = f"7187_{str(uuid.uuid4())}"
+        return random_id
+
+
     def generate_json(self):
         data = {
             "availability_policy": {
@@ -79,7 +76,7 @@ class post_instance:
             "crn": "crn:v1:staging:public:is:us-south-1:a/f3bad5305cff47af940f9ac4350cdb68::instance:7187_3b92c0b9-e8ec-404d-8350-86c90837f0bd",
             "disks": [],
             "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/instances/7187_3b92c0b9-e8ec-404d-8350-86c90837f0bd",
-            "id": "7187_3b92c0b9-e8ec-404d-8350-86c90837f0bd",
+            "id": self.random_id_generator(),
             "image": {
                 "crn": "crn:v1:staging:public:is:us-south:a/c21088ea7a014ffb8f6a7bc4304699a0::image:r134-6a8861e0-654a-4cfc-b09d-b25f5cee1d9c",
                 "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/images/r134-6a8861e0-654a-4cfc-b09d-b25f5cee1d9c",
@@ -92,7 +89,7 @@ class post_instance:
             "metadata_service": {
                 "enabled": False
             },
-            "name": "demo",
+            "name": self.name,
             "network_interfaces": [
                 {
                     "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/instances/7187_3b92c0b9-e8ec-404d-8350-86c90837f0bd/network_interfaces/7187-14c62481-8a11-49c5-b990-0cf54a52998f",
@@ -137,7 +134,7 @@ class post_instance:
             },
             "profile": {
                 "href": "https://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com/v1/instance/profiles/bx2-2x8",
-                "name": "bx2-2x8"
+                "name": self.profile
             },
             "resource_group": {
                 "href": "https://resource-controller.test.cloud.ibm.com/v2/resource_groups/7820413784bc4594aafd9bd33d45b9dd",
@@ -174,6 +171,5 @@ class post_instance:
                 "name": "us-south-1"
             }
         }
-        # return jsonify(data)
-        return data
 
+        return data

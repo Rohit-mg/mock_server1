@@ -1,13 +1,20 @@
 from _datetime import datetime
-
-ENDPOINT = "us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com"
+ibm_server = "169.55.231.167:30328"
+local_server = "127.0.0.1:5000"
+ENDPOINT = "us-south-stage01.iaasdev.cloud.ibm.com"
 DATE = datetime.today().strftime('%Y-%m-%d')
 identity_url = "https://iam.test.cloud.ibm.com/identity/token"
-baseUrl = "http://us-south-genesis-dal10-compute1.iaasdev.cloud.ibm.com",
-key_url = "http://127.0.0.1:5000/key"
+baseUrl = "us-south-stage01.iaasdev.cloud.ibm.com",
+# key_url = f"http://{ibm_server}/v1/keys"# "http://127.0.0.1:5000/v1/keys" "http://169.55.231.138:31531/v1/keys"
+key_url = "http://127.0.0.1:5000/v1/keys"
 vpc_url = f"https://{ENDPOINT}:443/v1/vpcs?generation=2&version={DATE}"
 vpc_cidr_url = "https://{ENDPOINT}:443/v1/vpcs/{vpc_id}/address_prefixes?generation=2&version={DATE}"
 subnet_url = f"https://{ENDPOINT}:443/v1/subnets?generation=2&version={DATE}"
 img_url = f"https://{ENDPOINT}/v1/images?version={DATE}&generation=2"
 vol_url = f"https://{ENDPOINT}/v1/volume/profiles?generation=2&version={DATE}"
-ins_url = "http://127.0.0.1:5000/instance"
+# ins_url = f"http://{ibm_server}/v1/instances"
+ins_url = "http://127.0.0.1:5000/v1/instances"
+# ins_url_name =f"http://{ibm_server}/v1/instances/demo"
+ins_url_name ="http://127.0.0.1:5000/v1/instances/demo"
+ins_url_del = "http://127.0.0.1:5000/v1/del_instances"
+# ins_url_del = f"http://{ibm_server}/v1/del_instances"

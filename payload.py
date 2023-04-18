@@ -8,6 +8,8 @@ class payload_c:
         self.vpc_id = None
         self.img_id = None
         self.key_id = None
+        self.name = "demo1"
+        self.profile = "bx2-2x8"
 
 
         self.data = {"grant_type": "urn:ibm:params:oauth:grant-type:apikey",
@@ -30,7 +32,7 @@ class payload_c:
         }
 
         self.pay_ins = {
-            "name": "demo",
+            "name": self.name,
             "boot_volume_attachment": {
                 "delete_volume_on_instance_delete": True,
                 "name": "boot-vol",
@@ -52,7 +54,7 @@ class payload_c:
                 }
             },
             "profile": {
-                "name": "bx2-2x8"
+                "name": self.profile
             },
             "vpc": {
                 "id": self.vpc_id
@@ -75,10 +77,10 @@ class payload_c:
 
 
 
-    def print_ins_id(self):
+    def print_ins_id(self,name):
 
         self.pay_ins = {
-            "name": "demo",
+            "name": name,
             "boot_volume_attachment": {
                 "delete_volume_on_instance_delete": True,
                 "name": "boot-vol",

@@ -1,7 +1,3 @@
-import json
-import requests
-import payload
-import urls
 from payload import payload_c
 
 from api_call import access_token, auth, get_key_id, get_vpc_id, get_vpc_cidr, get_subnet_id, get_vol_id, get_img_id, \
@@ -15,13 +11,6 @@ class create_ids(payload_c):
         self.hed = None
         self.baseUrl = None
         self.access_token = None
-        # self.ins_id = None
-        # self.img_id = None
-        # self.subnet_id = None
-        # self.cidr = None
-        # self.vpc_id = None
-        # self.key_id = None
-        # self.vol_name = None
 
     def create_access_token(self):
         self.access_token = access_token(self.data)
@@ -48,23 +37,18 @@ class create_ids(payload_c):
     def create_img_id(self):
         self.img_id = get_img_id(self.hed)
 
-    def create_ins_id(self):
-        self.print_ins_id()
+    def create_ins_id(self,name="demo"):
+        self.print_ins_id(name)
         self.ins_id = get_ins_id(self.hed, self.pay_ins)
 
 
 new_id = create_ids()
-new_id.create_access_token()
 new_id.create_auth()
 new_id.create_key_id()
 new_id.create_vpc_id()
 new_id.create_cidr()
-
-
 new_id.create_subnet_id()
 new_id.create_vol_name()
 new_id.create_img_id()
-
-
 new_id.create_ins_id()
 
